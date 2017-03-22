@@ -1,0 +1,20 @@
+{
+	"gameName":"Whipping Top Game",
+	"UUID":"38cfb842-be69-4994-aab1-e6960fcd15d6",
+	"version":"1.5.1-beta",
+	"description":"Jogo no qual você deve pedalar na intensidade certa para que o pião tenha maxima performance","instructions":"Apenas pedale mantendo o velocimetro no indicador verde(modo facil), e pedale o maximo possivel nos boosts",
+	"fullClassName":"br.cefetmg.move2play.whippingtop.desktop.DesktopLauncher",
+	"minPlayers":1,
+	"maxPlayers":4,
+	"coverImage":"ss1.png",
+	"images":["ss1.png"],
+	"allowNewPlayersWhileRunning":true,
+	"defaultGameDurationIndex":0,	
+	"gameDurations":[5,10,20,30],
+	"gameSpecificSettings":[
+		{"attribute":"width","type":"int","value":"800","readOnly":false,"description":"Largura da tela"},
+		{"attribute":"height","type":"int","value":"600","readOnly":false,"description":"Altura da tela"},{"attribute":"FPS","type":"int","value":"30","readOnly":false,"description":"Quadros por segundo"},
+		{"attribute":"amountPlayers","type":"int","value":"4","readOnly":false,"description":"Quantidade de jogadores"},
+		{"attribute":"defaultTrackSize","type":"int","value":"-1000","readOnly":false,"description":"Tamanho padrao da pista, para pistas infinitas o valor deve ser -1000"}
+	]
+}

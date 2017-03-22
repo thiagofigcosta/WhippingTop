@@ -7,8 +7,8 @@ gwt {
     minHeapSize="1G"
 
     src = files(file("src/")) // Needs to be in front of "modules" below.
-    modules 'com.move2play.whippingtop.GdxDefinition'
-    devModules 'com.move2play.whippingtop.GdxDefinitionSuperdev'
+    modules 'br.cefetmg.move2play.whippingtop.GdxDefinition'
+    devModules 'br.cefetmg.move2play.whippingtop.GdxDefinitionSuperdev'
     project.webAppDirName = 'webapp'
 
     compiler {

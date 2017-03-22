@@ -1,7 +1,12 @@
 package com.move2play.whippingtop.screens;
 
+import aurelienribon.tweenengine.BaseTween;
 import aurelienribon.tweenengine.Tween;
+import aurelienribon.tweenengine.TweenCallback;
 import aurelienribon.tweenengine.TweenManager;
+import br.cefetmg.move2play.game.Move2PlayGame;
+import br.cefetmg.move2play.model.Player;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -12,24 +17,36 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Scaling;
 import com.move2play.whippingtop.WhippingTopGame;
 import com.move2play.whippingtop.tween.SpriteAcessor;
+import java.util.List;
 
-public class Splash implements Screen{
+public class Splash implements Screen,Move2PlayGame{
 
     private SpriteBatch batch;
     private Sprite moveLogo;
     private TweenManager tween;
+    private WhippingTopGame game;
+    
+    public Splash(WhippingTopGame game){
+        this.game=game;
+    }
     
     @Override
     public void show() {
+        game.eventHandler=(Move2PlayGame) this;
         batch=new SpriteBatch();
         tween=new TweenManager();
         Tween.registerAccessor(Sprite.class, new SpriteAcessor());
         moveLogo=new Sprite(new Texture("img/Move2Play.png"));
         moveLogo.setScale(.5f, .5f);
-        moveLogo.setPosition((Gdx.graphics.getWidth() - moveLogo.getRegionWidth()) / 2.0f, (Gdx.graphics.getHeight()- moveLogo.getRegionHeight()) / 2.0f);
+        moveLogo.setPosition(Gdx.graphics.getWidth()/2.0f - moveLogo.getWidth()/2.0f, Gdx.graphics.getHeight()/2.0f- moveLogo.getHeight()/2.0f);
         Tween.set(moveLogo, SpriteAcessor.ALPHA).target(0).start(tween);
         Tween.to(moveLogo, SpriteAcessor.ALPHA, 1).target(1).start(tween);
-        Tween.to(moveLogo, SpriteAcessor.ALPHA, 1).target(0).delay(2).start(tween);
+        Tween.to(moveLogo, SpriteAcessor.ALPHA, 1).target(0).delay(2).setCallback(new TweenCallback() {
+            @Override
+            public void onEvent(int type, BaseTween<?> source) {
+                game.setScreen(new WTGame(game));
+            }
+        }).start(tween);
     }
 
     @Override
@@ -71,5 +88,32 @@ public class Splash implements Screen{
     @Override
     public void dispose() {
         batch.dispose();
+        moveLogo.getTexture().dispose();
+        //tween.killall()??????
     }    
+
+    @Override
+    public void startGame(List<Player> list) {
+        System.out.println("StartGame from splash");
+    }
+
+    @Override
+    public void addPlayer(Player player) {
+        System.out.println("AddPlayer from splash");
+    }
+
+    @Override
+    public void removePlayer(Player player) {
+        System.out.println("RemovePlayer from splash");
+    }
+
+    @Override
+    public void move(int i) {
+        System.out.println("Move from splash");
+    }
+
+    @Override
+    public void initGame() {
+        System.out.println("InitGame from splash");
+    }
 }

@@ -2,7 +2,7 @@ package com.move2play.whippingtop.game;
 
 public class Track {
     private Obstacle[] track;
-    //TODO condições climaticas
+    private ClimateConditions condition;
     
     public Track(int size, double difficulty){
         if(difficulty<0)difficulty=0;
@@ -13,6 +13,7 @@ public class Track {
             track[i]=Obstacle.genRandom(track[i-1].getType());
             track[i].setDifficulty(track[i].getDifficulty()*(1+difficulty));
         }
+        condition=ClimateConditions.genRandom();
     }
     
     public Track(int size){
@@ -21,9 +22,53 @@ public class Track {
         for(int i=1;i<size; i++){
             track[i]=Obstacle.genRandom(track[i-1].getType());
         }
+        condition=ClimateConditions.genRandom();
     }
     
-    public Obstacle at(int i){
+    private Obstacle at(int i){
         return track[i];
     }
+    
+    public double difficultyAt(int i){
+        return track[i].getDifficulty()*(1+condition.getDifficultyMultiplicator());
+    }
+    public double optSpeedAt(int i,double pos){
+        return track[i].getOptimousSpeed(pos)*(1+condition.getOptimousSpeedMultiplicator());
+    }
+    public double frictionAt(int i){
+        return track[i].getFriction()*(1+condition.getFrictionMultiplicator());
+    }
+    public double sizeAt(int i){
+        return track[i].getSize();
+    }
+    public double obstacleTypeAt(int i){
+        return track[i].getType();
+    }
+    
+    public int getFullSize(){
+        return track.length;
+    }
+
+    public ClimateConditions getCondition() {
+        return condition;
+    }
+
+    public void setCondition(ClimateConditions condition) {
+        this.condition = condition;
+    }
+    
+    public void climaticFoward(){
+        condition.updateDuration();
+    }
+
+    @Override
+    public String toString() {
+        String out="Track:\n";
+        for(int i=0;i<track.length;i++)
+            out+="      "+track[i]+"\n";
+        return out + condition + '\n';
+    }
+    
+    
+    
 }

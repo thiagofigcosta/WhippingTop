@@ -1,78 +1,86 @@
 package com.move2play.whippingtop;
 
+import br.cefetmg.move2play.game.Move2PlayGame;
+import br.cefetmg.move2play.model.Player;
 import com.badlogic.gdx.Game;
 import com.move2play.whippingtop.screens.Splash;
+import java.util.List;
 
-public class WhippingTopGame extends Game {
-        public static final int WIDTH=800;
-        public static final int HEIGHT=600;
-        public static final int FPS=30;
-        
-	@Override
-	public void create () {
-            setScreen(new Splash());
-	}
+public class WhippingTopGame extends Game implements Move2PlayGame{
+    public static final int WIDTH=800;
+    public static final int HEIGHT=600;
+    public static int FPS=30;
 
-	@Override
-	public void render () {
-            super.render();
-	}
-	
-	@Override
-	public void dispose () {
-            super.dispose();
-	}
-        
-        @Override
-	public void resize (int width, int height) {
-            super.resize(width,height);
-	}
-        
-        @Override
-	public void pause () {
-            super.pause();
-	}
-        
-        @Override
-	public void resume () {
-            super.resume();
-	}
+    public Move2PlayGame eventHandler;
+
+    @Override
+    public void create () {
+        eventHandler=this;
+        setScreen(new Splash(this));
+    }
+
+    @Override
+    public void render () {
+        super.render();
+    }
+
+    @Override
+    public void dispose () {
+        super.dispose();
+    }
+
+    @Override
+    public void resize (int width, int height) {
+        super.resize(width,height);
+    }
+
+    @Override
+    public void pause () {
+        super.pause();
+    }
+
+    @Override
+    public void resume () {
+        super.resume();
+    }
+
+    @Override
+    public void startGame(List<Player> list) {
+        if(eventHandler!=this)
+            eventHandler.startGame(list);
+        else
+            System.out.println("StartGame from Main");
+    }
+
+    @Override
+    public void addPlayer(Player player) {
+        if(eventHandler!=this)
+            eventHandler.addPlayer(player);
+        else
+            System.out.println("AddPlayer from Main");
+    }
+
+    @Override
+    public void removePlayer(Player player) {
+        if(eventHandler!=this)
+            eventHandler.removePlayer(player);
+        else
+            System.out.println("RemomvePlayer from Main");
+    }
+
+    @Override
+    public void move(int i) {
+        if(eventHandler!=this)
+            eventHandler.move(i);
+        else
+            System.out.println("Move from Main");
+    }
+
+    @Override
+    public void initGame() {
+        if(eventHandler!=this)
+            eventHandler.initGame();
+        else
+            System.out.println("InitGame from Main");
+    }
 }
-
-/*
-package com.move2play.whippingtop;
-
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-public class WhippingTopGame extends Game {
-	SpriteBatch batch;
-	Texture img;
-	
-	@Override
-	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("img/Move2Play.png");
-	}
-
-	@Override
-	public void render () {
-		Gdx.gl.glClearColor(0, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
-	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
-	}
-}
-
-*/

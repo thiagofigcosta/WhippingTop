@@ -4,8 +4,6 @@ import java.util.Random;
 
 public class Obstacle {
     
-    //TODO funcao de passar obstaculo de acordo com atributos do peao
-    
     private static Random rand = new Random();
     
     private static final int NOFPREFABS=5;
@@ -27,7 +25,7 @@ public class Obstacle {
     }
     
     private int type;
-    private double size;//0-??
+    private double size;//0-maxValueOfInt
     private double difficulty;//0-5
     private double optimousSpeed;//0-c
     private double friction;//0-1
@@ -82,7 +80,7 @@ public class Obstacle {
     public static Obstacle genRandom(int previous){
         int next=previous;
         if(rand.nextInt(4)==0)
-            next=rand.nextInt(NOFPREFABS);
+            next=rand.nextInt(NOFPREFABS*2);
         switch(next){
             default: return STONE();
             case 1: return SPEEDUP();
@@ -90,6 +88,27 @@ public class Obstacle {
             case 3: return CONE();
             case 4: return BRIDGE();
         }
+    }
+
+    public double getFriction() {
+        return friction;
+    }
+
+    public void setFriction(double friction) {
+        this.friction = friction;
+    }
+
+    @Override
+    public String toString() {
+        String name;
+        switch(type){
+            default: name="stone";break;
+            case 1: name="speedup";break;
+            case 2: name="grass";break;
+            case 3: name="cone";break;
+            case 4: name="bridge";break;
+        }
+        return name+"{" + "size=" + size + ", difficulty=" + difficulty + ", optimousSpeed=" + optimousSpeed + ", friction=" + friction + "}\n";
     }
     
 }

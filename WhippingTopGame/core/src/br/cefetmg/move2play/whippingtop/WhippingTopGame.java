@@ -5,56 +5,17 @@ import br.cefetmg.move2play.model.Player;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import br.cefetmg.move2play.whippingtop.screens.Splash;
-import com.badlogic.gdx.Gdx;
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class WhippingTopGame extends Game implements Move2PlayGame{
     public Move2PlayGame eventHandler;
     private Screen previousScreen=null;
     private Assets resources;
-    private String settingsFilename="game-settings.json";
     private Settings gs;
     
     public WhippingTopGame(){
         eventHandler=this;
-        gs=new Settings();
-        String settingsPath = "";
-        try{
-            
-            String classPath = WhippingTopGame.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-            String decodedPath = URLDecoder.decode(classPath, "UTF-8");
-            File execPath=new File(decodedPath);
-            settingsPath= execPath.getParent()+File.separator+settingsFilename;
-            File f=new File(settingsPath);
-            if(f.exists()&&!f.isDirectory()) { 
-                gs.loadSettings(settingsPath);
-            }else{
-                System.out.println("Não existe "+settingsPath);
-                gs.loadSettings(settingsFilename);
-            }
-        }catch(Exception e){
-            System.out.println("Exceção exec...  ao achar "+settingsPath);
-            try {
-                File callPath=new File(".");
-                String execPathStr=callPath.getAbsolutePath().substring(0, callPath.getAbsolutePath().length() - 1);;
-                settingsPath= execPathStr+settingsFilename;
-                File f=new File(settingsPath);
-                if(f.exists()&&!f.isDirectory()) { 
-                    gs.loadSettings(settingsPath);
-                }else{
-                    System.out.println("Não existe "+settingsPath);
-                    gs.loadSettings(settingsFilename);
-                }
-            } catch (Exception ex) {
-                System.out.println("Exceção call...  ao achar "+settingsPath);
-                gs.loadSettings(settingsFilename);
-            }
-        }
+        gs=new Settings(WhippingTopGame.class);
+        gs.loadSettings();
     }
     
     public Assets getResources() {

@@ -10,7 +10,7 @@
 	"images":["ss1.png"],
 	"allowNewPlayersWhileRunning":true,
 	"defaultGameDurationIndex":0,	
-	"gameDurations":[5,10,20,30],
+	"gameDurations":[15,10,20,30],
 	"gameSpecificSettings":[
 		{"attribute":"width","type":"int","value":"800","readOnly":false,"description":"Largura da tela"},
 		{"attribute":"height","type":"int","value":"600","readOnly":false,"description":"Altura da tela"},{"attribute":"FPS","type":"int","value":"30","readOnly":false,"description":"Quadros por segundo"},

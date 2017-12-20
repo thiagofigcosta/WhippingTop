@@ -7,11 +7,9 @@ public class Settings extends GameSettings{
     private boolean runningOnMove2Play=false;
     private boolean multipleScreens=false;
     private static int FPS=0;
-    
-    @Override
-    public void loadSettings(String s){
-        super.loadSettings(s);
-        FPS=get("FPS");
+
+    public Settings(Class ownerClass) {
+        super(ownerClass);
     }
     
     @Override

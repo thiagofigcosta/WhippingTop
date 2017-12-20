@@ -5,7 +5,6 @@ import br.cefetmg.move2play.model.Player;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import br.cefetmg.move2play.whippingtop.WhippingTopGame;
-import java.util.List;
 
 public class DesktopLauncher implements Move2PlayGame{
     
@@ -59,7 +58,7 @@ public class DesktopLauncher implements Move2PlayGame{
     @Override
     public void initGame() {
         System.out.println("init from launcher");
-        config.forceExit=false;
+        config.forceExit=true;
         run();
         gameClass.getSettings().setRunningOnMove2Play(true);
         System.out.println("new thread");

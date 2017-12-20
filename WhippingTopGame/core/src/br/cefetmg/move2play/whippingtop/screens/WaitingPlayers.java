@@ -146,6 +146,8 @@ public class WaitingPlayers implements Screen,Move2PlayGame{
                     game.setScreen(new WTGameManager(listf,defaultTrackSize,game));
                 }
             });
+        }else{
+            System.out.println("err - 0 active players");
         }
     }
     
@@ -158,7 +160,13 @@ public class WaitingPlayers implements Screen,Move2PlayGame{
     public void addPlayer(Player player) {
         System.out.println("addPlayer from Waiting Players");
         players.add(player);
-        colors.add(SpriteCreator.createCircle(20, new Vector2(20,20), Util.byteToColor(player.getColor())));
+        final Player pl=player;
+        Gdx.app.postRunnable(new Runnable() {
+            @Override
+            public void run() {
+                colors.add(SpriteCreator.createCircle(20, new Vector2(20,20), Util.byteToColor(pl.getColor())));
+            }
+        });
     }
 
     @Override

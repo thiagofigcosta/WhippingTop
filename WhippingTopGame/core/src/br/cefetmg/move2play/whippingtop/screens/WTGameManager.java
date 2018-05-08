@@ -566,23 +566,26 @@ public class WTGameManager implements Screen, Move2PlayGame{
     }
 
     @Override
-    public void initGame() {
+    public boolean initGame() {
         System.out.println("Init from Game Manager");
+        return false;
     }
 
     @Override
-    public void startMatch() {
+    public boolean startMatch() {
         System.out.println("startMatch from Game Manager");
+        return false;
     }
     
     @Override
-    public void finishMatch() {
+    public boolean finishMatch() {
         System.out.println("finishMatch from Game Manager");
         this.finished=true;
+        return true;
     }
 
     @Override
-    public void addPlayer(Player player) {
+    public boolean addPlayer(Player player) {
         System.out.println("AddPlayer from Game Manager");
         float Xoffset=screens.size()*spaceBaseBetweenTracks;
         WTGame wttmp=new WTGame(game,track,Xoffset,player);
@@ -592,10 +595,11 @@ public class WTGameManager implements Screen, Move2PlayGame{
             game.getSettings().setMultipleScreens(true);
         else 
             game.getSettings().setMultipleScreens(false);
+        return true;
     }
 
     @Override
-    public void removePlayer(Player player) {
+    public boolean removePlayer(Player player) {
         System.out.println("RmPlayer from Game Manager");
         for(int i=0;i<screens.size();i++){
             if(screens.get(i).getUUID().equals(player.getUUID()))
@@ -606,19 +610,21 @@ public class WTGameManager implements Screen, Move2PlayGame{
             game.getSettings().setMultipleScreens(true);
         else 
             game.getSettings().setMultipleScreens(false);
+        return true;
     }
 
     @Override
-    public void move(String uuid,int i) {
+    public boolean move(String uuid,int i) {
         System.out.println("Move from Game Manager");
         for(WTGame wtg:screens)
             if(wtg.getUUID().equals(uuid))
                 for(int m=0;m<i;m++)
                     wtg.getTop().pedal();
+        return true;
     }
     
     @Override
-    public void closeGame() {
+    public boolean closeGame() {
         System.out.println("CloseGame from Game Manager");
         Gdx.app.postRunnable(new Runnable() {
             @Override
@@ -626,6 +632,17 @@ public class WTGameManager implements Screen, Move2PlayGame{
                 Gdx.app.exit();
             }
         });
+        return true;
+    }
+
+    @Override
+    public boolean reset() {
+        return game.reset();
+    }
+
+    @Override
+    public GameState getState() {
+        return GameState.inGame;
     }
     
 }

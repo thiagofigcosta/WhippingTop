@@ -68,58 +68,80 @@ public class WhippingTopGame extends Game implements Move2PlayGame{
     }
 
     @Override
-    public void startMatch() {
+    public boolean startMatch() {
         if(eventHandler!=this)
-            eventHandler.startMatch();
+            return eventHandler.startMatch();
         else
             System.out.println("startMatch from Main");
+        return false;
     }
     
     @Override
-    public void finishMatch() {
+    public boolean finishMatch() {
         if(eventHandler!=this)
-            eventHandler.finishMatch();
+            return eventHandler.finishMatch();
         else
             System.out.println("finishMatch from Main");
+        return false;
     }
 
     @Override
-    public void addPlayer(Player player) {
+    public boolean addPlayer(Player player) {
         if(eventHandler!=this)
-            eventHandler.addPlayer(player);
+            return eventHandler.addPlayer(player);
         else
             System.out.println("AddPlayer from Main");
+        return false;
     }
 
     @Override
-    public void removePlayer(Player player) {
+    public boolean removePlayer(Player player) {
         if(eventHandler!=this)
-            eventHandler.removePlayer(player);
+            return eventHandler.removePlayer(player);
         else
             System.out.println("RemomvePlayer from Main");
+        return false;
     }
 
     @Override
-    public void initGame() {
+    public boolean initGame() {
         if(eventHandler!=this)
             eventHandler.initGame();
         else
             System.out.println("InitGame from Main");
+        return true;
     }
 
     @Override
-    public void closeGame() {
+    public boolean closeGame() {
         if(eventHandler!=this)
-            eventHandler.closeGame();
+            return eventHandler.closeGame();
         else
             System.out.println("ExitGame from Main");
+        return false;
     }
 
     @Override
-    public void move(String uuid, int i) {
+    public boolean move(String uuid, int i) {
         if(eventHandler!=this)
-            eventHandler.move(uuid,i);
+            return eventHandler.move(uuid,i);
         else
             System.out.println("Move from Main");
+        return false;
+    }
+
+    @Override
+    public boolean reset() {
+        gs.loadSettings();
+        setScreen(new Splash(this));
+        resources=new Assets();
+        return true;
+    }
+
+    @Override
+    public GameState getState() {
+        if(eventHandler!=this)
+            return eventHandler.getState();
+        return GameState.loading;
     }
 }

@@ -26,47 +26,59 @@ public class DesktopLauncher implements Move2PlayGame{
     }
 
     @Override
-    public void startMatch() {
+    public boolean startMatch() {
         System.out.println("startMatch from launcher");
-        gameClass.startMatch();
+        return gameClass.startMatch();
     }
     
     @Override
-    public void finishMatch() {
+    public boolean finishMatch() {
         System.out.println("finishMatch from launcher");
-        gameClass.finishMatch();
+        return gameClass.finishMatch();
     }
 
     @Override
-    public void addPlayer(Player player) {
+    public boolean addPlayer(Player player) {
         System.out.println("add from launcher");
-        gameClass.addPlayer(player);
+        return gameClass.addPlayer(player);
     }
 
     @Override
-    public void removePlayer(Player player) {
+    public boolean removePlayer(Player player) {
         System.out.println("rm from launcher");
-        gameClass.removePlayer(player);
+        return gameClass.removePlayer(player);
     }
 
     @Override
-    public void move(String uuid,int i) {
+    public boolean move(String uuid,int i) {
         System.out.println("move from launcher");
-        gameClass.move(uuid,i);
+        return gameClass.move(uuid,i);
     }
 
     @Override
-    public void initGame() {
+    public boolean initGame() {
         System.out.println("init from launcher");
         config.forceExit=true;
         run();
         gameClass.getSettings().setRunningOnMove2Play(true);
         System.out.println("new thread");
+        return true;
     }
 
     @Override
-    public void closeGame() {
+    public boolean closeGame() {
         System.out.println("exitGame from launcher");
-        gameClass.closeGame();
+        return gameClass.closeGame();
+    }
+
+    @Override
+    public boolean reset() {
+        System.out.println("reset from launcher");
+        return gameClass.reset();
+    }
+
+    @Override
+    public GameState getState() {
+        return gameClass.getState();
     }
 }

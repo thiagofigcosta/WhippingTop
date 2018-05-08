@@ -112,12 +112,13 @@ public class ShowScore implements Screen,Move2PlayGame{
     }
 
     @Override
-    public void initGame() {
+    public boolean initGame() {
         System.out.println("InitGame from Show Scores");
+        return false;
     }
 
     @Override
-    public void startMatch() {
+    public boolean startMatch() {
         System.out.println("startMatch from Show Scores");
         Gdx.app.postRunnable(new Runnable() {
             @Override
@@ -125,30 +126,35 @@ public class ShowScore implements Screen,Move2PlayGame{
                 game.setScreen(new WaitingPlayers(game));
             }
         });
+        return true;
     }
     
     @Override
-    public void finishMatch() {
+    public boolean finishMatch() {
         System.out.println("finishMatch from Show Scores");
+        return true;
     }
 
     @Override
-    public void addPlayer(Player player) {
+    public boolean addPlayer(Player player) {
         System.out.println("addPlayer from Show Scores");
+        return false;
     }
 
     @Override
-    public void removePlayer(Player player) {
+    public boolean removePlayer(Player player) {
         System.out.println("rmPlayer from Show Scores");
+        return false;
     }
 
     @Override
-    public void move(String uuid,int i) {
+    public boolean move(String uuid,int i) {
         System.out.println("Move from Show Scores");
+        return false;
     }
 
     @Override
-    public void closeGame() {
+    public boolean closeGame() {
         System.out.println("CloseGame from show score");
         Gdx.app.postRunnable(new Runnable() {
             @Override
@@ -156,5 +162,16 @@ public class ShowScore implements Screen,Move2PlayGame{
                 Gdx.app.exit();
             }
         });
+        return true;
     }    
+
+    @Override
+    public boolean reset() {
+        return game.reset();
+    }
+
+    @Override
+    public GameState getState() {
+        return GameState.outGame;
+    }
 }

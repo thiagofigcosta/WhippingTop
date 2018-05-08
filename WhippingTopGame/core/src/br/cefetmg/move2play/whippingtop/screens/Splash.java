@@ -1,65 +1,53 @@
 package br.cefetmg.move2play.whippingtop.screens;
 
-import aurelienribon.tweenengine.BaseTween;
-import aurelienribon.tweenengine.Tween;
-import aurelienribon.tweenengine.TweenCallback;
-import aurelienribon.tweenengine.TweenManager;
 import br.cefetmg.move2play.game.Move2PlayGame;
 import br.cefetmg.move2play.model.Player;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Scaling;
 import br.cefetmg.move2play.whippingtop.WhippingTopGame;
-import br.cefetmg.move2play.whippingtop.tween.SpriteAcessor;
-import br.cefetmg.move2play.whippingtop.util.files.Images;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Rectangle;
-import java.util.List;
+import libgdxUtils.AnimatedSprite;
+import libgdxUtils.VideoUtil;
 
 public class Splash implements Screen,Move2PlayGame{
 
     private SpriteBatch batch;
-    private Sprite moveLogo;
-    private TweenManager tween;
     private WhippingTopGame game;
     
     private Rectangle viewport;
     
+    private AnimatedSprite animationSplash;
+    private Sound sound;
+    
     public Splash(WhippingTopGame game){
         this.game=game;
+        animationSplash = new AnimatedSprite(VideoUtil.imageSequenceToAnimation("anim/splash",24,51,".jpeg"));
     }
     
     @Override
     public void show() {
         game.eventHandler=(Move2PlayGame) this;
+        sound = Gdx.audio.newSound(Gdx.files.internal("audio/sound/splash.mp3"));
+        sound.play(1.0f);
         batch=new SpriteBatch();
-        tween=new TweenManager();
-        Tween.registerAccessor(Sprite.class, new SpriteAcessor());
-        moveLogo=new Sprite(new Texture(Images.Move2PlayLogo()));
-        moveLogo.setScale(.5f, .5f);
-        moveLogo.setPosition(Gdx.graphics.getWidth()/2.0f - moveLogo.getWidth()/2.0f, Gdx.graphics.getHeight()/2.0f- moveLogo.getHeight()/2.0f);
-        Tween.set(moveLogo, SpriteAcessor.ALPHA).target(0).start(tween);
-        Tween.to(moveLogo, SpriteAcessor.ALPHA, 1).target(1).start(tween);
-        Tween.to(moveLogo, SpriteAcessor.ALPHA, 1).target(0).delay(2).setCallback(new TweenCallback() {
-            @Override
-            public void onEvent(int type, BaseTween<?> source) {
-                game.setScreen(new WaitingPlayers(game));
-            }
-        }).start(tween);
+        animationSplash.setPosition(Gdx.graphics.getWidth()/2.0f - animationSplash.getWidth()/2.0f, Gdx.graphics.getHeight()/2.0f- animationSplash.getHeight()/2.0f);
     }
 
     @Override
     public void render(float delta) {
-        tween.update(delta);
-        Gdx.gl.glClearColor(0, 0, 0, 1);
+        Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        batch.begin();
-        moveLogo.draw(batch);
-        batch.end();
+        if(!animationSplash.isAnimationFinished()){
+           batch.begin();
+            animationSplash.draw(batch);
+            batch.end();
+        }else{
+            game.setScreen(new WaitingPlayers(game));
+        }
     }
 
     @Override
@@ -103,42 +91,47 @@ public class Splash implements Screen,Move2PlayGame{
     @Override
     public void dispose() {
         batch.dispose();
-        moveLogo.getTexture().dispose();
-        //tween.killall()??????
+        sound.dispose();
     }    
 
     @Override
-    public void startMatch() {
+    public boolean startMatch() {
         System.out.println("startMatch from splash");
+        return false;
     }
     
     @Override
-    public void finishMatch() {
+    public boolean finishMatch() {
         System.out.println("finishMatch from splash");
+        return false;
     }
 
     @Override
-    public void addPlayer(Player player) {
+    public boolean addPlayer(Player player) {
         System.out.println("AddPlayer from splash");
+        return false;
     }
 
     @Override
-    public void removePlayer(Player player) {
+    public boolean removePlayer(Player player) {
         System.out.println("RemovePlayer from splash");
+        return false;
     }
 
     @Override
-    public void move(String uuid,int i) {
+    public boolean move(String uuid,int i) {
         System.out.println("Move from splash");
+        return false;
     }
 
     @Override
-    public void initGame() {
+    public boolean initGame() {
         System.out.println("InitGame from splash");
+        return false;
     }
     
     @Override
-    public void closeGame() {
+    public boolean closeGame() {
         System.out.println("CloseGame from Waiting splash");
         Gdx.app.postRunnable(new Runnable() {
             @Override
@@ -146,6 +139,17 @@ public class Splash implements Screen,Move2PlayGame{
                 Gdx.app.exit();
             }
         });
+        return true;
+    }
+
+    @Override
+    public boolean reset() {
+        return game.reset();
+    }
+
+    @Override
+    public GameState getState() {
+        return GameState.loading;
     }
    
 }

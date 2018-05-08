@@ -2,6 +2,7 @@ package br.cefetmg.move2play.whippingtop.screens;
 
 import br.cefetmg.move2play.game.Move2PlayGame;
 import br.cefetmg.move2play.model.Player;
+import br.cefetmg.move2play.whippingtop.Assets;
 import br.cefetmg.move2play.whippingtop.WhippingTopGame;
 import br.cefetmg.move2play.whippingtop.util.SpriteCreator;
 import br.cefetmg.move2play.whippingtop.util.Util;
@@ -130,12 +131,13 @@ public class WaitingPlayers implements Screen,Move2PlayGame{
     }
 
     @Override
-    public void initGame() {
+    public boolean initGame() {
         System.out.println("InitGame from Waiting Players");
+        return true;
     }
 
     @Override
-    public void startMatch() {
+    public boolean startMatch() {
         System.out.println("startMatch from Waiting Players");
         if(players.size()>0){
             final int defaultTrackSize=game.getSettings().get("defaultTrackSize");
@@ -146,47 +148,53 @@ public class WaitingPlayers implements Screen,Move2PlayGame{
                     game.setScreen(new WTGameManager(listf,defaultTrackSize,game));
                 }
             });
+            return true;
         }else{
             System.out.println("err - 0 active players");
+            return false;
         }
     }
     
     @Override
-    public void finishMatch() {
+    public boolean finishMatch() {
         System.out.println("finishMatch from Waiting Players(gg)");
+        return false;
     }
 
     @Override
-    public void addPlayer(Player player) {
+    public boolean addPlayer(Player player) {
         System.out.println("addPlayer from Waiting Players");
-        players.add(player);
         final Player pl=player;
         Gdx.app.postRunnable(new Runnable() {
             @Override
             public void run() {
+                players.add(pl);
                 colors.add(SpriteCreator.createCircle(20, new Vector2(20,20), Util.byteToColor(pl.getColor())));
             }
         });
+        return true;
     }
 
     @Override
-    public void removePlayer(Player player) {
+    public boolean removePlayer(Player player) {
         System.out.println("rmPlayer from Waiting Players");
         for(int i=0;i<players.size();i++)
             if(players.get(i).getUUID().equals(player.getUUID())){
                 players.remove(i);
                 colors.remove(i);
-                break;
+                return true;
             }
+        return false;
     }
 
     @Override
-    public void move(String uuid,int i) {
+    public boolean move(String uuid,int i) {
         System.out.println("Move from Waiting Players");
+        return false;
     }
 
     @Override
-    public void closeGame() {
+    public boolean closeGame() {
         System.out.println("CloseGame from Waiting Players");
         Gdx.app.postRunnable(new Runnable() {
             @Override
@@ -194,5 +202,16 @@ public class WaitingPlayers implements Screen,Move2PlayGame{
                 Gdx.app.exit();
             }
         });
+        return true;
     }    
+
+    @Override
+    public boolean reset() {
+        return game.reset();
+    }
+
+    @Override
+    public GameState getState() {
+        return GameState.waitingPlayers;
+    }
 }
